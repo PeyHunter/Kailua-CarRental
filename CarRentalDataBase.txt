@@ -1,0 +1,275 @@
+CREATE TABLE CarGroup (
+    car_group_id INT AUTO_INCREMENT PRIMARY KEY,
+    group_name VARCHAR(50) NOT NULL UNIQUE, 
+    description TEXT
+); 
+
+CREATE TABLE Car (
+    car_id INT AUTO_INCREMENT PRIMARY KEY, 
+    brand VARCHAR(50) NOT NULL, 
+    model VARCHAR(50) NOT NULL, 
+    fuel_type VARCHAR(20) NOT NULL, 
+    registration_number VARCHAR(20) UNIQUE NOT NULL, 
+    first_registration DATE NOT NULL, 
+    odometer INT NOT NULL, 
+    car_group_id INT, 
+    FOREIGN KEY (car_group_id) REFERENCES CarGroup(car_group_id)
+); 
+
+CREATE TABLE Address (
+    address_id INT AUTO_INCREMENT PRIMARY KEY, 
+    street VARCHAR(255) NOT NULL, 
+    zip_code VARCHAR(10) NOT NULL, 
+    city VARCHAR(50) NOT NULL
+); 
+
+CREATE TABLE Person ( 
+    person_id INT AUTO_INCREMENT PRIMARY KEY, 
+    fullname VARCHAR(100) NOT NULL,
+    mobile_phone VARCHAR(20),  -- Mobile phone can be NULL
+    email VARCHAR(100) UNIQUE NOT NULL,
+    driver_license VARCHAR(30) UNIQUE NOT NULL, 
+    driver_since DATE NOT NULL, 
+    address_id INT NOT NULL,  -- Fixed typo
+    FOREIGN KEY (address_id) REFERENCES Address(address_id)
+); 
+
+CREATE TABLE RentalContract ( 
+    rental_id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT NOT NULL,
+    car_id INT NOT NULL,
+    from_datetime DATETIME NOT NULL,
+    to_datetime DATETIME NOT NULL,
+    max_km INT NOT NULL,
+    start_odometer INT NOT NULL,
+    FOREIGN KEY (person_id) REFERENCES Person(person_id),
+    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+);
+
+
+
+
+____________________
+
+INSERT: 
+
+
+INSERT INTO CarGroup (group_name, description) VALUES
+('Luxury', 'Luxury cars with >3000 ccm, automatic gear, air condition, cruise control, leather seats'),
+('Family', 'Family cars with manual gear, air condition, some with cruise control, 7 seats or more'),
+('Sport', 'Sport cars with manual gear, >200 hp');
+
+
+____________________
+
+
+INSERT INTO Car (brand, model, fuel_type, registration_number, first_registration, odometer, car_group_id) VALUES
+-- Luxury Cars
+('Mercedes-Benz', 'S-Class', 'Petrol', 'LX001', '2020-05-10', 25000, 1),
+('BMW', '7 Series', 'Diesel', 'LX002', '2019-08-20', 32000, 1),
+('Audi', 'A8', 'Petrol', 'LX003', '2021-02-15', 18000, 1),
+('Lexus', 'LS', 'Hybrid', 'LX004', '2018-07-01', 45000, 1),
+('Jaguar', 'XJ', 'Petrol', 'LX005', '2022-03-30', 12000, 1),
+('Porsche', 'Panamera', 'Petrol', 'LX006', '2021-09-12', 20000, 1),
+('Cadillac', 'CT6', 'Diesel', 'LX007', '2020-12-05', 28000, 1),
+('Tesla', 'Model S', 'Electric', 'LX008', '2023-01-18', 5000, 1),
+('Genesis', 'G90', 'Petrol', 'LX009', '2021-06-25', 22000, 1),
+('Rolls-Royce', 'Ghost', 'Petrol', 'LX010', '2019-04-17', 35000, 1),
+
+-- Family Cars
+('Toyota', 'Sienna', 'Hybrid', 'FM001', '2022-05-10', 15000, 2),
+('Honda', 'Odyssey', 'Petrol', 'FM002', '2021-07-20', 24000, 2),
+('Ford', 'Explorer', 'Diesel', 'FM003', '2020-09-05', 32000, 2),
+('Chevrolet', 'Traverse', 'Petrol', 'FM004', '2019-06-12', 41000, 2),
+('Volkswagen', 'Sharan', 'Diesel', 'FM005', '2018-12-08', 50000, 2),
+('Kia', 'Carnival', 'Petrol', 'FM006', '2023-02-25', 8000, 2),
+('Nissan', 'Pathfinder', 'Hybrid', 'FM007', '2021-11-15', 18000, 2),
+('Mazda', 'CX-9', 'Petrol', 'FM008', '2022-08-05', 12000, 2),
+('Subaru', 'Ascent', 'Diesel', 'FM009', '2019-10-30', 45000, 2),
+('Hyundai', 'Santa Fe', 'Petrol', 'FM010', '2020-01-20', 30000, 2),
+('Peugeot', '5008', 'Hybrid', 'FM011', '2023-04-15', 6000, 2),
+('Skoda', 'Kodiaq', 'Diesel', 'FM012', '2022-03-10', 14000, 2),
+('Renault', 'Espace', 'Petrol', 'FM013', '2018-09-22', 52000, 2),
+('Mitsubishi', 'Outlander', 'Hybrid', 'FM014', '2021-06-28', 23000, 2),
+('Dodge', 'Durango', 'Petrol', 'FM015', '2019-08-14', 39000, 2),
+
+-- Sport Cars
+('Ferrari', '488 GTB', 'Petrol', 'SP001', '2022-07-10', 7000, 3),
+('Lamborghini', 'Huracan', 'Petrol', 'SP002', '2021-05-20', 15000, 3),
+('Porsche', '911 Turbo', 'Petrol', 'SP003', '2023-02-15', 5000, 3),
+('Chevrolet', 'Corvette Z06', 'Petrol', 'SP004', '2020-11-12', 25000, 3),
+('Nissan', 'GT-R', 'Petrol', 'SP005', '2019-06-01', 35000, 3),
+('Ford', 'Mustang GT', 'Petrol', 'SP006', '2021-09-30', 18000, 3),
+('Aston Martin', 'DB11', 'Petrol', 'SP007', '2020-03-22', 27000, 3),
+('McLaren', '720S', 'Petrol', 'SP008', '2022-05-14', 9000, 3),
+('Dodge', 'Challenger Hellcat', 'Petrol', 'SP009', '2018-08-11', 48000, 3),
+('BMW', 'M4', 'Petrol', 'SP010', '2021-10-25', 22000, 3),
+('Audi', 'R8', 'Petrol', 'SP011', '2019-05-07', 33000, 3),
+('Lotus', 'Evora', 'Petrol', 'SP012', '2023-06-18', 4000, 3),
+('Mercedes-AMG', 'GT', 'Petrol', 'SP013', '2022-04-02', 11000, 3),
+('Jaguar', 'F-Type', 'Petrol', 'SP014', '2021-07-09', 16000, 3),
+('Alfa Romeo', '4C', 'Petrol', 'SP015', '2018-09-15', 50000, 3);
+
+
+______________________
+
+
+
+INSERT INTO Address (street, zip_code, city) VALUES
+('123 Main St', '96734', 'Kailua'),
+('456 Ocean Ave', '96815', 'Honolulu'),
+('789 Pine Rd', '96707', 'Kapolei'),
+('101 Palm Dr', '96708', 'Maui'),
+('202 Sunset Blvd', '96793', 'Waikapu'),
+('303 Sand St', '96816', 'Honolulu'),
+('404 Hilltop Rd', '96701', 'Aiea'),
+('505 Seaview Dr', '96720', 'Hilo'),
+('606 Lakeshore Ln', '96744', 'Kaneohe'),
+('707 Mountain Rd', '96786', 'Wahiawa'),
+('808 Valley Ct', '96821', 'East Honolulu'),
+('909 River St', '96795', 'Waimanalo'),
+('1010 Volcano Dr', '96740', 'Kailua-Kona'),
+('1111 Garden Ave', '96750', 'Holualoa'),
+('1212 Orchid St', '96760', 'Keaau'),
+('1313 Turtle Bay', '96731', 'Laie'),
+('1414 Pearl St', '96734', 'Kailua'),
+('1515 Dolphin Rd', '96819', 'Kalihi'),
+('1616 Lanikai Dr', '96734', 'Lanikai'),
+('1717 Coral Reef Ct', '96817', 'Honolulu'),
+('1818 Kahala Ave', '96816', 'Kahala'),
+('1919 Waikiki Beach', '96815', 'Waikiki'),
+('2020 Mauna Loa Dr', '96743', 'Waimea'),
+('2121 Kapaa Rd', '96746', 'Kapaa'),
+('2222 Poipu Ln', '96756', 'Poipu'),
+('2323 Hanalei Bay', '96714', 'Hanalei'),
+('2424 Molokai Dr', '96748', 'Molokai'),
+('2525 Lanai St', '96763', 'Lanai City'),
+('2626 Hana Hwy', '96713', 'Hana'),
+('2727 Big Island Rd', '96778', 'Pahoa'),
+('2828 North Shore Dr', '96712', 'Haleiwa'),
+('2929 Volcano Ave', '96785', 'Volcano'),
+('3030 Kealakekua Bay', '96750', 'Kealakekua'),
+('3131 Waipio Valley', '96727', 'Honokaa'),
+('3232 Kaanapali Pkwy', '96761', 'Kaanapali'),
+('3333 South Point Rd', '96772', 'Naalehu'),
+('3434 Holualoa St', '96725', 'Holualoa'),
+('3535 Kona Coffee Rd', '96740', 'Kailua-Kona'),
+('3636 Banyan Tree Dr', '96720', 'Hilo'),
+('3737 Waikoloa Beach', '96738', 'Waikoloa'),
+('3838 Haleakala Hwy', '96768', 'Makawao'),
+('3939 Kipahulu Rd', '96713', 'Hana'),
+('4040 Kula Rd', '96790', 'Kula'),
+('4141 Lahaina St', '96761', 'Lahaina'),
+('4242 Princeville Ct', '96722', 'Princeville'),
+('4343 Waimanalo Dr', '96795', 'Waimanalo'),
+('4444 Sunset Beach', '96712', 'Haleiwa'),
+('4545 Diamond Head Rd', '96816', 'Honolulu'),
+('4646 Makena Rd', '96753', 'Makena'),
+('4747 Maui Meadows', '96753', 'Kihei');
+
+
+__________________________
+
+
+INSERT INTO Person (fullname, mobile_phone, email, driver_license, driver_since, address_id) VALUES
+('John Smith', '808-555-1234', 'john.smith@example.com', 'DL10001', '2010-06-15', 1),
+('Jane Doe', '808-555-5678', 'jane.doe@example.com', 'DL10002', '2012-09-21', 2),
+('Michael Johnson', '808-555-1111', 'michael.johnson@example.com', 'DL10003', '2008-04-30', 3),
+('Emily Davis', '808-555-2222', 'emily.davis@example.com', 'DL10004', '2015-08-18', 4),
+('Daniel Martinez', '808-555-3333', 'daniel.martinez@example.com', 'DL10005', '2007-01-12', 5),
+('Jessica Wilson', '808-555-4444', 'jessica.wilson@example.com', 'DL10006', '2014-07-22', 6),
+('Christopher Brown', '808-555-5555', 'christopher.brown@example.com', 'DL10007', '2009-12-05', 7),
+('Sarah Taylor', '808-555-6666', 'sarah.taylor@example.com', 'DL10008', '2013-10-09', 8),
+('Matthew Anderson', '808-555-7777', 'matthew.anderson@example.com', 'DL10009', '2016-05-14', 9),
+('Olivia Thomas', '808-555-8888', 'olivia.thomas@example.com', 'DL10010', '2011-02-27', 10),
+
+
+('Alice Turner', '808-555-1001', 'alice.turner@example.com', 'DL10011', '2010-11-30', 11),
+('Tom Harris', '808-555-1002', 'tom.harris@example.com', 'DL10012', '2012-04-25', 12),
+('Lily Clark', '808-555-1003', 'lily.clark@example.com', 'DL10013', '2014-09-16', 13),
+('Daniel Evans', '808-555-1004', 'daniel.evans@example.com', 'DL10014', '2015-06-13', 14),
+('Grace Walker', '808-555-1005', 'grace.walker@example.com', 'DL10015', '2016-01-20', 15),
+('James Hall', '808-555-1006', 'james.hall@example.com', 'DL10016', '2007-02-28', 16),
+('Emily King', '808-555-1007', 'emily.king@example.com', 'DL10017', '2011-12-10', 17),
+('Lucas Lee', '808-555-1008', 'lucas.lee@example.com', 'DL10018', '2013-07-17', 18),
+('Oliver Scott', '808-555-1009', 'oliver.scott@example.com', 'DL10019', '2008-03-04', 19),
+('Isabella Wright', '808-555-1010', 'isabella.wright@example.com', 'DL10020', '2012-01-11', 20),
+('Sophia Harris', '808-555-1011', 'sophia.harris@example.com', 'DL10021', '2016-05-02', 21),
+('Benjamin Young', '808-555-1012', 'benjamin.young@example.com', 'DL10022', '2015-10-08', 22),
+('Charlotte Green', '808-555-1013', 'charlotte.green@example.com', 'DL10023', '2014-12-19', 23),
+('William Clark', '808-555-1014', 'william.clark@example.com', 'DL10024', '2009-05-22', 24),
+('Mia Perez', '808-555-1015', 'mia.perez@example.com', 'DL10025', '2017-11-14', 25),
+('Ethan Robinson', '808-555-1016', 'ethan.robinson@example.com', 'DL10026', '2011-08-29', 26),
+('Ella Martinez', '808-555-1017', 'ella.martinez@example.com', 'DL10027', '2013-03-13', 27),
+('Amelia Davis', '808-555-1018', 'amelia.davis@example.com', 'DL10028', '2015-09-06', 28),
+('Jack Brown', '808-555-1019', 'jack.brown@example.com', 'DL10029', '2016-02-23', 29),
+('Henry Taylor', '808-555-1020', 'henry.taylor@example.com', 'DL10030', '2012-11-02', 30),
+('Zoe Adams', '808-555-1021', 'zoe.adams@example.com', 'DL10031', '2014-04-09', 31),
+('Jackie White', '808-555-1022', 'jackie.white@example.com', 'DL10032', '2010-03-24', 32),
+('Liam Nelson', '808-555-1023', 'liam.nelson@example.com', 'DL10033', '2008-08-05', 33),
+('Madison Harris', '808-555-1024', 'madison.harris@example.com', 'DL10034', '2017-02-16', 34),
+('Matthew Lee', '808-555-1025', 'matthew.lee@example.com', 'DL10035', '2011-04-28', 35),
+('Natalie Allen', '808-555-1026', 'natalie.allen@example.com', 'DL10036', '2015-01-07', 36),
+('Benjamin Hill', '808-555-1027', 'benjamin.hill@example.com', 'DL10037', '2014-09-03', 37),
+('Ava Moore', '808-555-1028', 'ava.moore@example.com', 'DL10038', '2010-07-14', 38),
+('Oliver Walker', '808-555-1029', 'oliver.walker@example.com', 'DL10039', '2009-02-16', 39),
+('Hannah Thomas', '808-555-1030', 'hannah.thomas@example.com', 'DL10040', '2016-08-22', 40),
+
+('Anna Moore', '808-555-9001', 'anna.moore@example.com', 'DL10041', '2010-07-11', 41),
+('David Harris', '808-555-9002', 'david.harris@example.com', 'DL10042', '2013-03-08', 42),
+('Megan Hall', '808-555-9003', 'megan.hall@example.com', 'DL10043', '2017-09-19', 43),
+('Brian Young', '808-555-9004', 'brian.young@example.com', 'DL10044', '2005-12-25', 44),
+('Natalie King', '808-555-9005', 'natalie.king@example.com', 'DL10045', '2012-06-02', 45),
+('Joshua Scott', '808-555-9006', 'joshua.scott@example.com', 'DL10046', '2006-10-30', 46),
+('Sophia Green', '808-555-9007', 'sophia.green@example.com', 'DL10047', '2018-11-17', 47),
+('Ethan Adams', '808-555-9008', 'ethan.adams@example.com', 'DL10048', '2010-08-06', 48),
+('Victoria Baker', '808-555-9009', 'victoria.baker@example.com', 'DL10049', '2014-05-21', 49),
+('Samuel Lopez', '808-555-9010', 'samuel.lopez@example.com', 'DL10050', '2009-09-14', 50);
+
+
+
+________________________
+
+INSERT INTO RentalContract (person_id, car_id, from_datetime, to_datetime, max_km, start_odometer) VALUES
+(1, 2, '2025-02-01 09:00:00', '2025-02-07 09:00:00', 1000, 120000),
+(2, 3, '2025-02-02 10:00:00', '2025-02-08 10:00:00', 800, 80000),
+(3, 4, '2025-02-03 11:00:00', '2025-02-09 11:00:00', 1200, 60000),
+(4, 5, '2025-02-04 12:00:00', '2025-02-10 12:00:00', 1500, 150000),
+(5, 6, '2025-02-05 13:00:00', '2025-02-11 13:00:00', 1000, 100000),
+(6, 7, '2025-02-06 14:00:00', '2025-02-12 14:00:00', 1100, 95000),
+(7, 8, '2025-02-07 15:00:00', '2025-02-13 15:00:00', 900, 75000),
+(8, 9, '2025-02-08 16:00:00', '2025-02-14 16:00:00', 1300, 115000),
+(9, 10, '2025-02-09 17:00:00', '2025-02-15 17:00:00', 1200, 130000),
+(10, 11, '2025-02-10 18:00:00', '2025-02-16 18:00:00', 1400, 125000),
+(11, 12, '2025-02-11 19:00:00', '2025-02-17 19:00:00', 1000, 105000),
+(12, 13, '2025-02-12 20:00:00', '2025-02-18 20:00:00', 1100, 110000),
+(13, 14, '2025-02-13 21:00:00', '2025-02-19 21:00:00', 1500, 95000),
+(14, 15, '2025-02-14 22:00:00', '2025-02-20 22:00:00', 1200, 115000),
+(15, 16, '2025-02-15 23:00:00', '2025-02-21 23:00:00', 1000, 120000),
+(16, 17, '2025-02-16 09:30:00', '2025-02-22 09:30:00', 900, 95000),
+(17, 18, '2025-02-17 10:30:00', '2025-02-23 10:30:00', 1100, 100000),
+(18, 19, '2025-02-18 11:30:00', '2025-02-24 11:30:00', 1300, 90000),
+(19, 20, '2025-02-19 12:30:00', '2025-02-25 12:30:00', 1400, 140000),
+(20, 1, '2025-02-20 13:30:00', '2025-02-26 13:30:00', 1500, 130000),
+(21, 1, '2025-02-21 09:00:00', '2025-02-27 09:00:00', 1000, 125000),
+(22, 2, '2025-02-22 10:00:00', '2025-02-28 10:00:00', 800, 85000),
+(23, 3, '2025-02-23 11:00:00', '2025-03-01 11:00:00', 1200, 65000),
+(24, 4, '2025-02-24 12:00:00', '2025-03-02 12:00:00', 1500, 155000),
+(25, 5, '2025-02-25 13:00:00', '2025-03-03 13:00:00', 1000, 105000),
+(26, 6, '2025-02-26 14:00:00', '2025-03-04 14:00:00', 1100, 97000),
+(27, 7, '2025-02-27 15:00:00', '2025-03-05 15:00:00', 900, 74000),
+(28, 8, '2025-02-28 16:00:00', '2025-03-06 16:00:00', 1300, 113000),
+(29, 9, '2025-03-01 17:00:00', '2025-03-07 17:00:00', 1200, 128000),
+(30, 10, '2025-03-02 18:00:00', '2025-03-08 18:00:00', 1400, 123000),
+(31, 11, '2025-03-03 19:00:00', '2025-03-09 19:00:00', 1000, 104000),
+(32, 12, '2025-03-04 20:00:00', '2025-03-10 20:00:00', 1100, 109000),
+(33, 13, '2025-03-05 21:00:00', '2025-03-11 21:00:00', 1500, 94000),
+(34, 14, '2025-03-06 22:00:00', '2025-03-12 22:00:00', 1200, 114000),
+(35, 15, '2025-03-07 23:00:00', '2025-03-13 23:00:00', 1000, 119000),
+(36, 16, '2025-03-08 09:30:00', '2025-03-14 09:30:00', 900, 96000),
+(37, 17, '2025-03-09 10:30:00', '2025-03-15 10:30:00', 1100, 101000),
+(38, 18, '2025-03-10 11:30:00', '2025-03-16 11:30:00', 1300, 92000),
+(39, 19, '2025-03-11 12:30:00', '2025-03-17 12:30:00', 1400, 141000),
+(40, 20, '2025-03-12 13:30:00', '2025-03-18 13:30:00', 1500, 131000);
+
+
