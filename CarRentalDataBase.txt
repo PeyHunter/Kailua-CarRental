@@ -51,8 +51,6 @@ CREATE TABLE RentalContract (
 
 ____________________
 
-INSERT: 
-
 
 INSERT INTO CarGroup (group_name, description) VALUES
 ('Luxury', 'Luxury cars with >3000 ccm, automatic gear, air condition, cruise control, leather seats'),

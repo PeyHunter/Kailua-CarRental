@@ -4,19 +4,21 @@ import java.sql.SQLException;
 
 public class DataBaseConnection
 {
-    private static final String URL = "jdbc:mysql://localhost:3306/CarRental";
-    private static final String USER = "root";
-    private static final String PASSWORD = "Kea=Krea1994";
+
+    public static final String URL = "jdbc:mysql://localhost:3306/CarRental";
+    public static final String USER = "root";
+    public static final String PASSWORD = "Kea=Krea1994";
 
     public static Connection getConnection()
     {
         try
         {
             return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             e.printStackTrace();
-            throw new RuntimeException("Error connecting to the database", e);
+            throw new RuntimeException("Error connection to the database", e);
         }
     }
 }
