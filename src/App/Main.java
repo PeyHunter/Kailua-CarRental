@@ -1,9 +1,12 @@
 package App;
-
+import java.sql.Date;
+import Models.Car;
 import Database.DataBaseConnection;
 import Database.DataBaseQuery;
 
+
 import java.sql.Connection;
+
 
 public class Main
 {
@@ -22,10 +25,7 @@ public class Main
         System.out.println("Fetching records...");
         DataBaseQuery.fetchAllRecords();
 
-//        //
-//
-//        int choice = scanner.
-//        boolean running = true;
+      //  Car car = new Car(1, "Honda", "Gazelle", "Gas", "DB827", new Date(System.currentTimeMillis(), 12, 1);
 
 
 

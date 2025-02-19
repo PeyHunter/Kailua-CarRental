@@ -51,19 +51,27 @@ public class Car
 
     //setters
 
-    public void     setCarID(int carID)        {this.carID = carID;}
-    public void     getBrand()                 {return brand;}
-    public void     getModel()                 {return model;}
-    public void     getFuelType()              {return fuelType;}
-    public void     getRegistrationNumber()    {return registrationNumber;}
-    public void     getFirstRegistration()     {return firstRegistration;}
-    public void     getOdometer()              {return odometer;}
-    public void     getCarGroupID()            {return carGroupID;}
+    public void     setCarID(int carID)                                 {this.carID = carID;}
+    public void     setBrand(String brand)                              {this.brand = brand;}
+    public void     setModel(String model)                              {this.model = model;}
+    public void     setFuelType(String fuelType)                        {this.fuelType = fuelType;}
+    public void     setRegistrationNumber(String registrationNumber)    {this.registrationNumber = registrationNumber;}
+    public void     setFirstRegistration(Date firstRegistration)        {this.firstRegistration = firstRegistration;}
+    public void     setOdometer(int odometer)                           {this.odometer = odometer;}
+    public void     setCarGroupID(int carGroup)                         {this.carGroupID = carGroupID;}
 
 
-
-
-
+    @Override
+    public String toString()
+    {
+        return "Car ID: " + carID + "\n" +
+                "Brand: : " + brand + "\n" +
+                "Model: " + model + "\n" +
+                "Fuel: " + fuelType + "\n" +
+                "Reg. Nr: " + registrationNumber + "\n" +
+                "First Reg: " + firstRegistration + "\n" +
+                "Car Group: " + carGroupID + "\n";
+    }
 
 
 
