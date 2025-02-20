@@ -27,14 +27,15 @@ public class Address
 
     //getters
 
-    public int          getAddress()    {return addressID;}
+
+    public int          getAddressID()    {return addressID;}
     public String       getStreet()     {return street;}
     public String       getZipCode()    {return zipCode;}
     public String       getCity()       {return city;}
 
     //setters
 
-    public void       setAddress(int addressID)       {this.addressID = addressID;}
+    public void       setAddressID(int addressID)       {this.addressID = addressID;}
     public void       setStreet(String street)      {this.street = street;}
     public void       setZipCode(String zipCode)    {this.zipCode = zipCode;}
     public void       setCity(String city)          {this.city = city;}

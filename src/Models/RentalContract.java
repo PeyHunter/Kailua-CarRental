@@ -12,6 +12,9 @@ public class RentalContract {
     private int maxKm;
     private int startOdometer;
 
+    //default construkter
+    public RentalContract() {}
+
     // Constructor for new rental contract (without ID)
     public RentalContract(int personID, int carID, Date fromDatetime, Date toDatetime, int maxKm, int startOdometer) {
         this.personID = personID;

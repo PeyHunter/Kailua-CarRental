@@ -39,7 +39,7 @@ public class PersonDAO implements GenericDAO<Person>
 
     @Override
     public void update(Person person) {
-        String sql = "UPDATE person SET fullname = ?, mobile_phone = ?, email = ?, driver_license = ?, driver_since = ?, address_id = ? WHERE email = ?";
+        String sql = "UPDATE person SET fullname = ?, mobile_phone = ?, email = ?, driver_license = ?, driver_since = ?, address_id = ? WHERE person_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, person.getFullName());
             pstmt.setString(2, person.getMobilePhone());
@@ -47,12 +47,13 @@ public class PersonDAO implements GenericDAO<Person>
             pstmt.setString(4, person.getDriverLicense());
             pstmt.setDate(5, new java.sql.Date(person.getDriverSince().getTime()));
             pstmt.setInt(6, person.getAddressID());
-            pstmt.setString(7, person.getEmail()); // Using email to find the correct person
+            pstmt.setInt(7, person.getPersonID());
+
             int rowsUpdated = pstmt.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Person updated successfully.");
             } else {
-                System.out.println("No person found with that email.");
+                System.out.println("No person found with that ID.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,14 +62,14 @@ public class PersonDAO implements GenericDAO<Person>
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM person WHERE address_id = ?";
+        String sql = "DELETE FROM person WHERE person_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             int rowsDeleted = pstmt.executeUpdate();
             if (rowsDeleted > 0) {
                 System.out.println("Person deleted successfully.");
             } else {
-                System.out.println("No person found with that address ID.");
+                System.out.println("No person found with that ID.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,12 +78,13 @@ public class PersonDAO implements GenericDAO<Person>
 
     @Override
     public Person selectById(int id) {
-        String sql = "SELECT * FROM person WHERE address_id = ?";
+        String sql = "SELECT * FROM person WHERE person_id = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return new Person(
+                        rs.getInt("person_id"), // Get the person_id from the result set
                         rs.getString("fullname"),
                         rs.getString("mobile_phone"),
                         rs.getString("email"),
@@ -105,6 +107,7 @@ public class PersonDAO implements GenericDAO<Person>
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 people.add(new Person(
+                        rs.getInt("person_id"), // Get the person_id from the result set
                         rs.getString("fullname"),
                         rs.getString("mobile_phone"),
                         rs.getString("email"),
@@ -118,30 +121,5 @@ public class PersonDAO implements GenericDAO<Person>
         }
         return people;
     }
-
-//    public void update(Person person)
-//    {
-//        String sql = "UPDATE Person SET fullname = ?, mobile_phone = ?, email = ?, driver_license = ?, driver_since = ?, address_id = ? WHERE person_id = ?";
-//        try(PreparedStatement pstmt = connection.prepareStatement(sql))
-//        {
-//            pstmt.setString(1, person.getFullName());
-//            pstmt.setString(2, person.getMobilePhone());
-//            pstmt.setString(3, person.getEmail());
-//            pstmt.setString(4, person.getDriverLicense());
-//            pstmt.setDate(5, new java.sql.Date(person.getDriverSince().getTime()));
-//            pstmt.setInt(6, person.getAddressID());
-//            pstmt.executeUpdate();
-//        }
-//            catch (SQLException e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//    }
-
-
-
-
-
 
 }
